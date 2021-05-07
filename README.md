@@ -232,7 +232,7 @@ int main() {
 ```
 The program uses socket pair technique (which comes together with Mongoose). When the main thread receives request, it will create a socket pair, pass the job parameters and the socket to the thread, and return. When the job is finished, the thread will store the response in a static variable (notice that the thread function `handleCalc` is static), send the address to the response data to the paried socket and return. In each poll event, the paired socket will check if there are finished requests and respond them to the client. The requests will be `GET` requests with a parameter `value`. The value `x` will be a number between -1 and 1. The calculation task is to calculate ![image](https://user-images.githubusercontent.com/47358542/117383688-5431ed00-aeaf-11eb-9776-6aab18ee0f68.png) , which will converge to `ln(x+1)`. With a quick decompilation, we can see the compiler didn't optimize the calculation:
 
-![image](https://user-images.githubusercontent.com/47358542/117394320-ef34c200-aec3-11eb-8650-aa9229283fab.png)
+![image](https://user-images.githubusercontent.com/47358542/117399840-6a4fa580-aecf-11eb-880c-b30331bcec4f.png)
 
 Sample request URL: `http://localhost:8000/calc?value=0.605690`
 
